@@ -10,6 +10,9 @@ on non-bipartite graphs" by H.J. Gabow, Standford Ph.D. thesis, 1973.
 
 A C program for maximum weight matching by Ed Rothberg was used extensively
 to validate this new code.
+
+author: Joris van Rantwijk
+contact: joris@jorisvr.nl
 """
 
 # If assigned, DEBUG(str) is called with lots of debug messages.

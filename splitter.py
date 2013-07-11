@@ -1,24 +1,6 @@
 """ Basic splitter interface """
-
-class Item(object):
-    def __init__(self, name):
-        self.name = name
-
-    def __eq__(self, other):
-        return self.name == other.name
-
-    def __repr__(self):
-        return "Item(%s)" % self.name
-
-class Actor(object):
-    def __init__(self, name):
-        self.name = name
-
-    def __eq__(self, other):
-        return self.name == other.name
-
-    def __repr__(self):
-        return "Actor(%s)" % self.name
+import mwmatching
+from pprint import pprint
 
 class Bid(object):
     def __init__(self, item, actor, amount):
@@ -47,18 +29,38 @@ class Splitter(object):
         return averages
 
     def split(self, items, actors, bids, exclusive=True):
+        print "Attempting to split:"
+        print "== Items: "
+        pprint(items)
+        print "== between:"
+        pprint(actors)
+        print "== as per the bids:"
+        pprint(bids)
         averages = self.calc_averages(items, bids)
-        item_to_bids = {}
-        item_to_actor = {}
-        for item in items:
-            item_to_bids[item] = [bid for bid in bids if bid.item == item]
+        bid_dict = {}
+        for bid in bids:
+            bid_dict[(bid.item, bid.actor)] = bid
 
-        if exclusive:
+        edges = []
+        for i in range(len(items)):
+            for j in range(len(actors)):
+                if (items[i], actors[j]) in bid_dict:
+                    bid = bid_dict[(items[i], actors[j])]
+                    edges.append((i, len(items) + j, self.score(bid, averages)))
+
+        mw = mwmatching.maxWeightMatching(edges)
+        result = {}
+        for i in range(len(items)):
+            if mw[i] != -1:
+                winner = actors[mw[i] - len(items)]
+                result[items[i]] = (winner, bid_dict[(items[i], winner)].amount)
+            else:
+                result[items[i]] = None
+
+        return result
+
+    def score(self, bid, averages):
+        return bid.amount
 
 
-        return item_to_bids
 
-items = [Item("Room 1"), Item("Room 2"), Item("Room 3")]
-bids = [Bid(Item("Room 1"), "Joey", 10), Bid(Item("Room 1"), "Josh", 15)]
-s = Splitter()
-print s.split(items, ["Joey", "Josh"], bids)
