@@ -72,6 +72,7 @@ class Auction(object):
         splitter = SurplusMaximizer()
         result = splitter.split(items, actors, bids)
         final_result = {}
+        print result
         total = sum([v[1] for k,v in result.items()])
         for k,v in result.items():
             final_result[k] = (v[0], v[1] / float(total) * total_dollars)

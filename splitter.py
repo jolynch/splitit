@@ -48,7 +48,8 @@ class Splitter(object):
                     bid = bid_dict[(items[i], actors[j])]
                     edges.append((i, len(items) + j, self.score(bid, averages)))
 
-        mw = mwmatching.maxWeightMatching(edges)
+        # Actually do the auction, maximizing whatever score function we have
+        mw = mwmatching.maxWeightMatching(edges, maxcardinality=True)
         result = {}
         for i in range(len(items)):
             if mw[i] != -1:
