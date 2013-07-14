@@ -56,6 +56,7 @@ score(bid, item_i) = bid - average_bid(item_i)
 ```
 
 This splitter has the following properties:
+
 1. You will never pay more than the bid that you make.
 2. Bidders who express strong preferences pay more of the real rent.
 3. You generally only win a room if you outbid the average (consensus) bid.
