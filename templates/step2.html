@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block body %}
+<script type="text/javascript">
+
+  var addItemHandler = function() {
+    var itemField = '<input type="text" name="items[]" /><br />';
+
+    $("#items-list").append(itemField);
+  };
+
+  $(function() {
+    addItemHandler();
+    $("#btn-add-item").on('click', addItemHandler);
+  });
+</script>
+
+Okay, added <b>{{ participant_count }}</b> users. Now, what's at stake?
+<form method='post' action='/step/2' class="form-horizontal">
+  <div class="control-group">
+    <label class="control-label">Items:</label>
+    <div class="controls">
+      <div id="items-list">
+      </div>
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <a id="btn-add-item" class="btn">Add Item</a>
+    </div>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Next Step &gt;</button>
+  </div>
+</form>
+{% endblock %}
