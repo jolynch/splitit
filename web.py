@@ -60,8 +60,11 @@ def step2_process():
     return redirect(url_for('step3'))
 
 @app.route('/step/3', methods=['GET'])
+@ensure_auction
 def step3():
-    return render_template('step3.html')
+    items = g.auction.items.count()
+
+    return render_template('step3.html', item_count=items)
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
