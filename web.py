@@ -111,7 +111,7 @@ def auction_bid_process(auction_id, participant_id):
             b = Bid(i.id, participant.id, bid)
             db.session.add(b)
     db.session.commit()
-    return str(request.form)
+    return redirect(url_for('auction', auction_id=auction.id))
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -130,6 +130,9 @@ class Participant(db.Model):
     def __init__(self, name, auction_id):
         self.name = name
         self.auction_id = int(auction_id)
+
+    def has_completed_bidding(self):
+        return self.bids.count() > 0
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)

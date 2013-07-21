@@ -13,7 +13,11 @@
       <br />
 
       {% for p in participants %}
-      <a href="{{ url_for('auction_bid', auction_id=g.auction.id, participant_id=p.id) }}" class="btn btn-large btn-block">I am {{ p.name }}</a>
+        {% if p.has_completed_bidding() is sameas true %}
+          <a class="btn btn-large btn-block btn-success disabled">✓ {{ p.name }}</a>
+        {% else %}
+          <a href="{{ url_for('auction_bid', auction_id=g.auction.id, participant_id=p.id) }}" class="btn btn-large btn-block">I am {{ p.name }}</a>
+        {% endif %}
       {% endfor %}
     </div>
 
