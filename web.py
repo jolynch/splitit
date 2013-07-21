@@ -89,9 +89,21 @@ def auction(auction_id):
     else:
         return "This auction has not been prepared yet :("
 
-@app.route('/auction/<int:auction_id>/<int:participant_id>')
+@app.route('/auction/<int:auction_id>/<int:participant_id>', methods=['GET'])
 def auction_bid(auction_id, participant_id):
-    return "hi"
+    auction = db.session.query(Auction).get(auction_id)
+    participant = db.session.query(Participant).get(participant_id)
+    if auction == None or participant == None:
+        return "404 page not found :("
+    return render_template('auction_bid.html', \
+            auction=auction, \
+            participant=participant, \
+            items=auction.items)
+
+@app.route('/auction/<int:auction_id>', methods=['POST'])
+def auction_bid_process(auction_id):
+    # It's kinda restful!
+    pass
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -124,7 +136,7 @@ class Item(db.Model):
 
 class Bid(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Float(2))
+    amount = db.Column(db.Integer)
 
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
     item = db.relationship('Item', backref=db.backref('bids', lazy='dynamic'))
