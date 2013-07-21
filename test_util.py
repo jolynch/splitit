@@ -8,6 +8,7 @@ def item_assignment_present(test_case, result, item, actor=None, amount=None):
     amount (int) -- The winning bid on the item
     """
     test_case.assertIn(item, result)
+    test_case.assertIsNotNone(result[item])
     winner, winning_bid = result[item]
     if actor is not None:
         test_case.assertEqual(winner, actor)

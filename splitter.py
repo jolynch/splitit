@@ -58,6 +58,14 @@ class Splitter(object):
             else:
                 result[items[i]] = None
 
+        # If we have left over items then continue auctioning off items
+        # TODO: figure out if this is "good enough" or actually optimal, I
+        # really don't think that it is optimal.  I think that this is greedy
+        remaining_items = [item for item in items if result[item] is None]
+        if len(remaining_items) > 0:
+            remaining_result = self.split(remaining_items, actors, bids, exclusive)
+            result = dict(result.items() + remaining_result.items())
+
         return result
 
     def score(self, bid, averages):

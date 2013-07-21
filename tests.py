@@ -144,6 +144,30 @@ class TestSurplusMaximizer(unittest.TestCase):
                     (ITEM5, ACTOR5, None)]
         item_assignments_present(self, result, expected)
 
+    def test_edge_cover(self):
+        """ Test an auction where we have more items than people
+
+        """
+        bids = [# I have no preferences
+                Bid(ITEM1, ACTOR1, 1000),
+                Bid(ITEM2, ACTOR1, 1000),
+                Bid(ITEM3, ACTOR1, 1000),
+                Bid(ITEM4, ACTOR1, 1000),
+
+                # I have some preferences
+                Bid(ITEM1, ACTOR2, 500),
+                Bid(ITEM2, ACTOR2, 1500),
+                Bid(ITEM3, ACTOR2, 1500),
+                Bid(ITEM4, ACTOR2, 500)]
+
+        result = self.splitter.split(ITEMS[:4], ACTORS[:2], bids)
+        expected = [(ITEM1, ACTOR1, None),
+                    (ITEM2, ACTOR2, None),
+                    (ITEM3, ACTOR2, None),
+                    (ITEM4, ACTOR1, None)]
+        print result
+        item_assignments_present(self, result, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
