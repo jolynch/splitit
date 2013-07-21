@@ -70,6 +70,7 @@ def step3():
 @ensure_auction
 def step3_process():
     g.auction.total_bid = request.form['total_bid']
+    g.auction.name = request.form['name']
     db.session.add(g.auction)
     db.session.commit()
 
@@ -119,6 +120,7 @@ def auction_bid_process(auction_id, participant_id):
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
     total_bid = db.Column(db.Integer)
 
     def __init__(self, total_bid=0):

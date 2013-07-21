@@ -1,5 +1,9 @@
 {% extends "index.html" %}
 
+{% block title %}
+{{ auction.name }}
+{% endblock %}
+
 {% block body %}
 <script type="text/javascript">
   var totalSum = {{ auction.total_bid }};
