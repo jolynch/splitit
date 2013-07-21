@@ -66,8 +66,24 @@ def step3():
 
     return render_template('step3.html', item_count=items)
 
+@app.route('/step/3', methods=['POST'])
+@ensure_auction
+def step3_process():
+    g.auction.update({ 'total_bid' : request.form['total_bid'] })
+
+    return redirect(url_for('auction', g.auction.id))
+
+@app.route('/auction/<int:auction_id>')
+@ensure_auction
+def auction(auction_id):
+    return auction_id
+
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    total_bid = db.Column(db.Integer)
+
+    def __init__(self, total_bid=0):
+        self.total_bid = total_bid
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
