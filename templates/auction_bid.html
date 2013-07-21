@@ -1,0 +1,75 @@
+{% extends "index.html" %}
+
+{% block title %}
+{{ auction.name }}
+{% endblock %}
+
+{% block body %}
+<script type="text/javascript">
+  var totalSum = {{ auction.total_bid }};
+
+  var appendError = function($el, error) {
+    $el.parents('.control-group').find('.help-inline').html(error);
+    $el.parents('.control-group').addClass('error');
+  }
+
+  var removeError = function($el) {
+    $el.parents('.control-group').find('.help-inline').html('');
+    $el.parents('.control-group').removeClass('error');
+  }
+
+  var validateFormHandler = function(ev) {
+    var values = $(".item_bid");
+    var errors = false;
+    var sum = 0;
+
+    $.each(values, function(i, el) {
+      if (el.value === "") {
+        errors = true;
+        appendError($(el), "You must put a bid in for this item!")
+        return;
+      }
+      var fieldVal = parseInt(el.value, 10);
+      if (fieldVal < 0) {
+        errors = true;
+        appendError($(el), "You must bid a positive amount!")
+        return;
+      } else {
+        sum = sum + fieldVal;
+      }
+
+      removeError($(el));
+    });
+
+    if (sum != totalSum) {
+      appendError($('.item_bid').last(), "Your bids must sum to $" + totalSum.toString())
+      errors = true;
+    }
+
+    return !errors; /* Prevent form from submitting */
+  }
+
+  $(function() {
+    $("#submit_btn").on('click', validateFormHandler);
+  });
+</script>
+<form method='post' action='{{ url_for('auction_bid_process', participant_id=participant.id, auction_id=auction.id) }}' method='post'>
+  <fieldset>
+    {% for i in items %}
+      <div class="control-group">
+        <label class="control-label">{{ i.name }}:</label>
+        <div class="controls">
+          <div class="input-prepend">
+            <span class="add-on">$</span>
+            <input type="text" name="item_bid[{{i.id}}]" class="item_bid" placeholder="1000" />
+          </div>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+    {% endfor %}
+  </fieldset>
+  <div class="form-actions">
+    <button type="submit" id="submit_btn" class="btn btn-primary">Submit Bids!</button>
+  </div>
+</form>
+{% endblock %}

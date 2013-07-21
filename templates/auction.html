@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+
+{% block body %}
+  <div class="row">
+    Welcome to the Auction! This is where we each put the price we are willing to
+    pay for the appropriate items in.
+      <br />
+      <br />
+  </div>
+
+  <div class="row">
+    <div class="span4 offset1">
+      <b>Please click your name:</b>
+      <br />
+      <br />
+
+      {% for p in participants %}
+        {% if p.has_completed_bidding() is sameas true %}
+          <a class="btn btn-large btn-block btn-success disabled">✓ {{ p.name }}</a>
+        {% else %}
+          <a href="{{ url_for('auction_bid', auction_id=g.auction.id, participant_id=p.id) }}" class="btn btn-large btn-block">I am {{ p.name }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="span4 offset2">
+    You will be dividing up <b>${{ total_bid }}</b> between the following items:
+    <ul>
+      {% for i in items %}
+        <li>{{ i.name }}</li>
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
