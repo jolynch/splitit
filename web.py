@@ -81,11 +81,15 @@ def auction(auction_id):
     if g.auction == None:
         return "404 page not found :("
     if g.auction.total_bid > 0:
-        return render_template('auction.html',       \
-                participants=g.auction.participants, \
-                total_bid=g.auction.total_bid,       \
-                items=g.auction.items,               \
-                )
+        if g.auction.is_complete():
+            # Actually process the stuff here
+            return "all done!"
+        else:
+            return render_template('auction.html',       \
+                    participants=g.auction.participants, \
+                    total_bid=g.auction.total_bid,       \
+                    items=g.auction.items,               \
+                    )
     else:
         return "This auction has not been prepared yet :("
 
@@ -119,6 +123,9 @@ class Auction(db.Model):
 
     def __init__(self, total_bid=0):
         self.total_bid = total_bid
+
+    def is_complete(self):
+        return all([p.has_completed_bidding() for p in self.participants.all()])
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
