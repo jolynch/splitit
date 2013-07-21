@@ -51,7 +51,6 @@
 </script>
 <form method='post' action='{{ url_for('auction_bid_process', participant_id=participant.id, auction_id=auction.id) }}' method='post'>
   <fieldset>
-    <input type='hidden' name='participant_id' value='{{ participant.id }}' />
     {% for i in items %}
       <div class="control-group">
         <label class="control-label">{{ i.name }}:</label>

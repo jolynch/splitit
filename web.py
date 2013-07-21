@@ -100,10 +100,18 @@ def auction_bid(auction_id, participant_id):
             participant=participant, \
             items=auction.items)
 
-@app.route('/auction/<int:auction_id>', methods=['POST'])
-def auction_bid_process(auction_id):
-    # It's kinda restful!
-    pass
+@app.route('/auction/<int:auction_id>/<int:participant_id>', methods=['POST'])
+def auction_bid_process(auction_id, participant_id):
+    auction = db.session.query(Auction).get(auction_id)
+    participant = db.session.query(Participant).get(participant_id)
+    for i in auction.items:
+        key = "item_bid[" + str(i.id) + "]"
+        bid = request.form[key]
+        if bid != None:
+            b = Bid(i.id, participant.id, bid)
+            db.session.add(b)
+    db.session.commit()
+    return str(request.form)
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -144,9 +152,10 @@ class Bid(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey('participant.id'))
     participant = db.relationship('Participant', backref=db.backref('bids', lazy='dynamic'))
 
-    def __init__(self, item_id, user_id):
-        self.user_id = int(user_id)
+    def __init__(self, item_id, participant_id, amount):
         self.item_id = int(item_id)
+        self.participant_id = int(participant_id)
+        self.amount = int(amount)
 
 if __name__ == '__main__':
     app.debug = True
