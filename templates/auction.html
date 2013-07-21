@@ -13,7 +13,7 @@
       <br />
 
       {% for p in participants %}
-        <a class="btn btn-large btn-block">I am {{ p.name }}</a>
+      <a href="{{ url_for('auction_bid', auction_id=g.auction.id, participant_id=p.id) }}" class="btn btn-large btn-block">I am {{ p.name }}</a>
       {% endfor %}
     </div>
 

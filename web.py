@@ -89,6 +89,10 @@ def auction(auction_id):
     else:
         return "This auction has not been prepared yet :("
 
+@app.route('/auction/<int:auction_id>/<int:participant_id>')
+def auction_bid(auction_id, person_id):
+    pass
+
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     total_bid = db.Column(db.Integer)
