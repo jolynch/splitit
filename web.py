@@ -90,8 +90,8 @@ def auction(auction_id):
         return "This auction has not been prepared yet :("
 
 @app.route('/auction/<int:auction_id>/<int:participant_id>')
-def auction_bid(auction_id, person_id):
-    pass
+def auction_bid(auction_id, participant_id):
+    return "hi"
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -121,6 +121,20 @@ class Item(db.Model):
     def __init__(self, name, auction_id):
         self.name = name
         self.auction_id = int(auction_id)
+
+class Bid(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Float(2))
+
+    item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+    item = db.relationship('Item', backref=db.backref('bids', lazy='dynamic'))
+
+    participant_id = db.Column(db.Integer, db.ForeignKey('participant.id'))
+    participant = db.relationship('Participant', backref=db.backref('bids', lazy='dynamic'))
+
+    def __init__(self, item_id, user_id):
+        self.user_id = int(user_id)
+        self.item_id = int(item_id)
 
 if __name__ == '__main__':
     app.debug = True
