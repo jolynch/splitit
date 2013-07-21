@@ -77,10 +77,17 @@ def step3_process():
 
 @app.route('/auction/<int:auction_id>')
 def auction(auction_id):
-    auction = db.session.query(Auction).get(auction_id)
-    if auction == None:
+    g.auction = db.session.query(Auction).get(auction_id)
+    if g.auction == None:
         return "404 page not found :("
-    return str(auction)
+    if g.auction.total_bid > 0:
+        return render_template('auction.html',       \
+                participants=g.auction.participants, \
+                total_bid=g.auction.total_bid,       \
+                items=g.auction.items,               \
+                )
+    else:
+        return "This auction has not been prepared yet :("
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)

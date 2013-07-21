@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block body %}
+  <div class="row">
+    Welcome to the Auction! This is where we each put the price we are willing to
+    pay for the appropriate items in.
+  </div>
+
+  <div class="row">
+    <div class="span4 offset2">
+      <b>Please click your name:</b>
+      <br />
+      <br />
+
+      {% for p in participants %}
+        <a class="btn btn-large btn-block">I am {{ p.name }}</a>
+      {% endfor %}
+    </div>
+
+    <div class="span4 offset2">
+    You will be dividing up <b>${{ total_bid }}</b> between the following items:
+    <ul>
+      {% for i in items %}
+        <li>{{ i.name }}</li>
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
