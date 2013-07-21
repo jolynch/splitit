@@ -69,14 +69,18 @@ def step3():
 @app.route('/step/3', methods=['POST'])
 @ensure_auction
 def step3_process():
-    g.auction.update({ 'total_bid' : request.form['total_bid'] })
+    g.auction.total_bid = request.form['total_bid']
+    db.session.add(g.auction)
+    db.session.commit()
 
-    return redirect(url_for('auction', g.auction.id))
+    return redirect(url_for('auction', auction_id=g.auction.id))
 
 @app.route('/auction/<int:auction_id>')
-@ensure_auction
 def auction(auction_id):
-    return auction_id
+    auction = db.session.query(Auction).get(auction_id)
+    if auction == None:
+        return "404 page not found :("
+    return str(auction)
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
