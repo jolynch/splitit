@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session, redirect, url_for, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from functools import wraps
+from surplus_maximizer import SurplusMaximizer
+from splitter import Bid as SplitterBid
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/db.sqlite3"
@@ -83,8 +85,7 @@ def auction(auction_id):
         return "404 page not found :("
     if g.auction.total_bid > 0:
         if g.auction.is_complete():
-            # Actually process the stuff here
-            return "all done!"
+            return str(g.auction.calculate())
         else:
             return render_template('auction.html',       \
                     participants=g.auction.participants, \
@@ -128,6 +129,18 @@ class Auction(db.Model):
 
     def is_complete(self):
         return all([p.has_completed_bidding() for p in self.participants.all()])
+
+    def splitter_bids(self):
+        return [SplitterBid(i.name, b.participant.name, b.amount) for i in self.items for b in i.bids]
+
+    def calculate(self):
+        splitter = SurplusMaximizer()
+        result = splitter.split(                            \
+                 [i.name for i in self.items.all()],        \
+                 [p.name for p in self.participants.all()], \
+                 self.splitter_bids()                       \
+                 )
+        return result
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
