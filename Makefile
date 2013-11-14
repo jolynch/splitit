@@ -6,10 +6,10 @@ production:
 	@true
 
 web:
-	python splitit/web.py
+	python -m splitit.web
 
 cmd:
-	python splitit/auction.py
+	python -m splitit.auction
 
 tests: test
 

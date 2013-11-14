@@ -3,8 +3,10 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from splitter import Bid as SplitterBid
 from surplus_maximizer import SurplusMaximizer
 import pdb
+import sys
 import os
 
+sys.path.append(os.getcwd())
 base = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
