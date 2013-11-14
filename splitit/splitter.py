@@ -36,6 +36,10 @@ class Splitter(object):
         pprint(actors)
         print "== as per the bids:"
         pprint(bids)
+
+        print "== Generating sufficent fake items and actors for a full auction =="
+
+
         averages = self.calc_averages(items, bids)
         bid_dict = {}
         for bid in bids:
