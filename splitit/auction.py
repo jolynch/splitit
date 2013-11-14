@@ -6,7 +6,7 @@ from pprint import pprint
 class Auction(object):
     def run(self):
         auctions = []
-        print "Welcome to item-splitter!"
+        print "Welcome to splitit!"
         while True:
             action = raw_input("> ")
             if action in ("h", "help"):

@@ -16,8 +16,11 @@ def register_blueprints():
     app.register_blueprint(views_setup.setup_views)
     app.register_blueprint(views_auction.auction_views)
 
-if __name__ == '__main__':
+def run_webserver():
     app.debug = True
     app.secret_key = 'IShouldntTellAnyoneThisString'
     register_blueprints()
     app.run()
+
+if __name__ == '__main__':
+    run_webserver()

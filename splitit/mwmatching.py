@@ -13,6 +13,8 @@ to validate this new code.
 
 author: Joris van Rantwijk
 contact: joris@jorisvr.nl
+
+(used with permission from the author)
 """
 
 # If assigned, DEBUG(str) is called with lots of debug messages.

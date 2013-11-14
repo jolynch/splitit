@@ -1,4 +1,4 @@
-item-splitter
+splitit
 =============
 A framework and algorithm to fairly split costs amoung roommates when there is
 no obvious criteria to split the costs based on.
@@ -26,7 +26,7 @@ along the way.
 
 Auctions
 --------
-item-splitter supports simultaneous auctions based on bids on multiple items.
+splitit supports simultaneous auctions based on bids on multiple items.
 Once an auction has begun, you will get asked a series of questions that are
 needed to setup the auction, and then the program will split the items
 according to a [maximum weight matching](http://jorisvr.nl/maximummatching.html)

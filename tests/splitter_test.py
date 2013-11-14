@@ -1,6 +1,6 @@
 import unittest
-from surplus_maximizer import SurplusMaximizer
-from splitter import Bid
+from splitit.surplus_maximizer import SurplusMaximizer
+from splitit.splitter import Bid
 
 from test_util import item_assignment_present
 from test_util import item_assignments_present
