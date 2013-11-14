@@ -53,7 +53,7 @@
     $("#submit_btn").on('click', validateFormHandler);
   });
 </script>
-<form method='post' action='{{ url_for('auction_bid_process', participant_id=participant.id, auction_id=auction.id) }}' method='post'>
+<form method='POST' action='{{ url_for('auction.auction_bid_process', participant_id=participant.id, auction_id=auction.id) }}' method='POST'>
   <fieldset>
     {% for i in items %}
       <div class="control-group">
