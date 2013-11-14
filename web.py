@@ -3,9 +3,12 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from splitter import Bid as SplitterBid
 from surplus_maximizer import SurplusMaximizer
 import pdb
+import os
+
+base = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/db.sqlite3"
+app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.join(base, 'site.db')
 db = SQLAlchemy(app)
 
 def register_blueprints():
@@ -16,6 +19,5 @@ def register_blueprints():
 if __name__ == '__main__':
     app.debug = True
     app.secret_key = 'IShouldntTellAnyoneThisString'
-    db.create_all()
     register_blueprints()
     app.run()
