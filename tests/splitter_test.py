@@ -1,9 +1,10 @@
 import unittest
-from splitit.surplus_maximizer import SurplusMaximizer
-from splitit.splitter import Cost
 
+from splitit.splitter import Cost
+from splitit.surplus_maximizer import SurplusMaximizer
 from test_util import item_assignment_present
 from test_util import item_assignments_present
+
 
 ACTOR1 = "Ben Bitdiddle (1)"
 ACTOR2 = "Eva Lu Ator (2)"

@@ -1,6 +1,7 @@
-from splitit.web import db
-from splitit.surplus_maximizer import SurplusMaximizer
+from splitit.models.shared import db
 from splitit.splitter import Cost as SplitterBid
+from splitit.surplus_maximizer import SurplusMaximizer
+
 
 class Auction(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,7 +1,9 @@
 """ Basic splitter interface """
-import mwmatching
 from pprint import pprint
+
+import mwmatching
 from util import lcm
+
 
 class Cost(object):
     def __init__(self, item, actor, amount):

@@ -1,7 +1,13 @@
-from flask import Flask, session, redirect, url_for, g
 from functools import wraps
+
+from flask import Flask
+from flask import g
+from flask import redirect
+from flask import session
+from flask import url_for
 from models.auction import Auction
-from web import db
+from models.shared import db
+
 
 def ensure_auction(f):
     @wraps(f)

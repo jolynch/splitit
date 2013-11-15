@@ -1,28 +1,36 @@
-from flask import Flask, session, redirect, url_for, g
-from flask.ext.sqlalchemy import SQLAlchemy
-from splitter import Cost as SplitterBid
-from surplus_maximizer import SurplusMaximizer
-import pdb
-import sys
 import os
+import sys
+
+from flask import Flask
+from flask import g
+from flask import redirect
+from flask import session
+from flask import url_for
+from flask.ext.sqlalchemy import SQLAlchemy
+from models.shared import db
+
 
 sys.path.append(os.getcwd())
 base = os.path.abspath(os.path.dirname(__file__))
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.join(base, 'site.db')
-db = SQLAlchemy(app)
+def make_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.join(base, 'site.db')
+    app.secret_key = 'IShouldntTellAnyoneThisString'
+    register_blueprints(app)
+    db.init_app(app)
+    return app
 
-def register_blueprints():
+def register_blueprints(app):
     import views_setup, views_auction
     app.register_blueprint(views_setup.setup_views)
     app.register_blueprint(views_auction.auction_views)
 
-def run_webserver():
+def run_webserver(app):
     app.debug = True
-    app.secret_key = 'IShouldntTellAnyoneThisString'
-    register_blueprints()
     app.run()
 
+splitit_app = make_app()
+
 if __name__ == '__main__':
-    run_webserver()
+    run_webserver(splitit_app)

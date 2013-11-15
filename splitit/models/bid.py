@@ -1,4 +1,5 @@
-from splitit.web import db
+from splitit.models.shared import db
+
 
 class Bid(db.Model):
     id = db.Column(db.Integer, primary_key=True)

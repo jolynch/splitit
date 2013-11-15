@@ -1,7 +1,9 @@
 """ Basic auction runner """
+from pprint import pprint
+
 from splitter import Cost
 from surplus_maximizer import SurplusMaximizer
-from pprint import pprint
+
 
 class Auction(object):
     def run(self):
