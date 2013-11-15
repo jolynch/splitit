@@ -10,7 +10,8 @@ setup_views = Blueprint('setup', __name__, template_folder = 'templates')
 @setup_views.route('/')
 def homepage():
     session['auction_id'] = None
-    return render_template('homepage.html')
+    auctions = Auction.query.all()
+    return render_template('homepage.html', auctions=auctions)
 
 @setup_views.route('/step/1', methods=['GET'])
 def step1():

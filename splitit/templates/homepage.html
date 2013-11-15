@@ -2,12 +2,22 @@
 {% block body %}
 <div class="row">
   <div class="span12">
-    <p>This website will help you divide up items between multiple people. Simply follow the instructions and optimal outcomes will be achieved!</p>
+    <p>This website will help you divide up items between multiple people. Follow the instructions and optimal outcomes will be achieved!</p>
   </div>
 </div>
 <div class="row">
   <div class="span2 offset5">
-    <a href='/step/1' class="btn-start btn btn-primary btn-large">Start!</a>
+    <a href='/step/1' class="btn-start btn btn-primary btn-large">Start A New Auction!</a>
   </div>
 </div>
+<h3> Existing auctions </h3>
+<table class="table">
+  <tr><th>Auction Name</th><th>Participants</th></tr>
+  {% for auction in auctions %}
+  <tr>
+    <td><a href='{{ url_for('auction.auction', auction_id=auction.id) }}'>{{auction.name}}</a></td>
+    <td>{{ auction.participants|map(attribute='name')|join(', ') }}</td>
+    </tr>
+  {% endfor %}
+</table>
 {% endblock %}
