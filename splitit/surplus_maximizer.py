@@ -1,7 +1,7 @@
 """ This splitter attempts to maximize apparent total surplus """
 from splitter import Splitter
-from splitter import Bid
+from splitter import Cost
 
 class SurplusMaximizer(Splitter):
-    def score(self, bid, averages):
-        return bid.amount - averages[bid.item]
+    def score(self, cost, averages):
+        return cost.amount - averages[cost.item]

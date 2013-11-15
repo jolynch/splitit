@@ -1,5 +1,5 @@
 """ Basic auction runner """
-from splitter import Bid
+from splitter import Cost
 from surplus_maximizer import SurplusMaximizer
 from pprint import pprint
 
@@ -65,7 +65,7 @@ class Auction(object):
                 a_bids = [int(a.strip()) for a in a_bids.split(",")]
                 if sum(a_bids) == total_dollars:
                     for i in range(len(a_bids)):
-                        bids.append(Bid(items[i], actor, a_bids[i]))
+                        bids.append(Cost(items[i], actor, a_bids[i]))
                 else:
                     print "That is the wrong total, %d != %d" % (sum(a_bids), total_dollars)
                     a_bids = []

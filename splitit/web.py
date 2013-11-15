@@ -1,6 +1,6 @@
 from flask import Flask, session, redirect, url_for, g
 from flask.ext.sqlalchemy import SQLAlchemy
-from splitter import Bid as SplitterBid
+from splitter import Cost as SplitterBid
 from surplus_maximizer import SurplusMaximizer
 import pdb
 import sys
