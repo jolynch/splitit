@@ -170,6 +170,56 @@ class TestSurplusMaximizer(unittest.TestCase):
                     (ITEM5, ACTOR1, None)]
         item_assignments_present(self, result, expected)
 
+    def test_normalize_equal(self):
+        test_dict = {
+            ITEM1: (ACTOR1, 1000),
+            ITEM2: (ACTOR2, 500),
+            ITEM3: (ACTOR3, 0),
+            ITEM4: (ACTOR4, 2000)
+        }
+        total = 3500
+
+        expected = [(ITEM1, ACTOR1, 1000),
+                    (ITEM2, ACTOR2, 500),
+                    (ITEM3, ACTOR3, 0),
+                    (ITEM4, ACTOR4, 2000)]
+
+        result = self.splitter.normalize(test_dict, total)
+        item_assignments_present(self, result, expected)
+
+    def test_normalize_high(self):
+        test_dict = {
+            ITEM1: (ACTOR1, 1000),
+            ITEM2: (ACTOR2, 500),
+            ITEM3: (ACTOR3, 0),
+            ITEM4: (ACTOR4, 2000)
+        }
+        total = 1000
+
+        expected = [(ITEM1, ACTOR1, 286),
+                    (ITEM2, ACTOR2, 143),
+                    (ITEM3, ACTOR3, 0),
+                    (ITEM4, ACTOR4, 571)]
+
+        result = self.splitter.normalize(test_dict, total)
+        item_assignments_present(self, result, expected)
+
+    def test_normalize_low(self):
+        test_dict = {
+            ITEM1: (ACTOR1, 1000),
+            ITEM2: (ACTOR2, 500),
+            ITEM3: (ACTOR3, 0),
+            ITEM4: (ACTOR4, 2000)
+        }
+        total = 5000
+
+        expected = [(ITEM1, ACTOR1, 1429),
+                    (ITEM2, ACTOR2, 714),
+                    (ITEM3, ACTOR3, 0),
+                    (ITEM4, ACTOR4, 2857)]
+
+        result = self.splitter.normalize(test_dict, total)
+        item_assignments_present(self, result, expected)
 
 if __name__ == '__main__':
     unittest.main()

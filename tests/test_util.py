@@ -13,7 +13,7 @@ def item_assignment_present(test_case, result, item, actor=None, amount=None):
     if actor is not None:
         test_case.assertEqual(winner, actor)
     if amount is not None:
-        test_case.assertEqual(winner, amount)
+        test_case.assertEqual(winning_bid, amount)
 
 def item_assignments_present(test_case, result, assignments):
     """ Test that an expected list of assignments are present

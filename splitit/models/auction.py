@@ -24,3 +24,7 @@ class Auction(db.Model):
                  self.splitter_bids()                       \
                  )
         return result
+
+    def normalized(self):
+        item_splitter = SurplusMaximizer()
+        return item_splitter.normalize(self.calculate(), self.total_bid)

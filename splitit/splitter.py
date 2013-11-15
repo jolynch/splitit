@@ -101,6 +101,16 @@ class Splitter(object):
 
         return final_result
 
+    def normalize(self, item_assignments, total):
+        total_bids = float(sum(v[1] for k,v in item_assignments.iteritems()))
+        total = float(total)
+        return dict([
+            (item, (winner[0], int(round(winner[1] / total_bids * total))))
+            for item, winner
+            in item_assignments.iteritems()
+        ])
+
+
     def score(self, bid, averages):
         return bid.amount
 

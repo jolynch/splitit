@@ -15,7 +15,12 @@ def auction(auction_id):
         return "404 page not found :("
     if g.auction.total_bid > 0:
         if g.auction.is_complete():
-            return str(g.auction.calculate())
+            return render_template('auction_result.html',
+                                   items=g.auction.items,
+                                   participants=g.auction.participants,
+                                   total_bid=g.auction.total_bid,
+                                   result=g.auction.calculate(),
+                                   normalized=g.auction.normalized())
         else:
             return render_template('auction.html',       \
                     participants=g.auction.participants, \
