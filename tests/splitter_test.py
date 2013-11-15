@@ -162,13 +162,12 @@ class TestSurplusMaximizer(unittest.TestCase):
                 Bid(ITEM4, ACTOR2, 500),
                 Bid(ITEM5, ACTOR2, 1500)]
 
-        result = self.splitter.split(ITEMS[:4], ACTORS[:2], bids)
+        result = self.splitter.split(ITEMS[:5], ACTORS[:2], bids)
         expected = [(ITEM1, ACTOR1, None),
                     (ITEM2, ACTOR2, None),
                     (ITEM3, ACTOR2, None),
                     (ITEM4, ACTOR2, None),
                     (ITEM5, ACTOR1, None)]
-        print result
         item_assignments_present(self, result, expected)
 
 
