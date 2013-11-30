@@ -36,7 +36,8 @@ def auction(auction_id):
                     items=g.auction.items,               \
                     )
     else:
-        return "This auction has not been prepared yet :("
+        session['auction_id'] = g.auction.id
+        return redirect(url_for('setup.step1'))
 
 @auction_views.route('/auction/<int:auction_id>/<int:participant_id>', methods=['GET'])
 def auction_bid(auction_id, participant_id):

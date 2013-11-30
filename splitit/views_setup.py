@@ -30,7 +30,7 @@ def step1():
         session['auction_id'] = auction.id
     else:
         auction = db.session.query(Auction).get(session['auction_id'])
-    return render_template('step1.html')
+    return render_template('step1.html', auction=auction)
 
 @setup_views.route('/step/1', methods=['POST'])
 @ensure_auction
