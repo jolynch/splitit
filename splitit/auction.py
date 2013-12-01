@@ -20,7 +20,7 @@ class Auction(object):
                 if result is not None:
                     auctions.append(result)
             elif action in ("v", "view"):
-                num = raw_input("Which auction (0, {0})".format(len(auctions)-1))
+                num = raw_input("Which auction (0, {0})".format(len(auctions) - 1))
                 if num < len(auctions):
                     pprint(auctions[num])
             elif action in ("vi", "view_all"):
@@ -75,8 +75,8 @@ class Auction(object):
         result = splitter.split(items, actors, bids)
         final_result = {}
         print result
-        total = sum([v[1] for k,v in result.items()])
-        for k,v in result.items():
+        total = sum([v[1] for k, v in result.items()])
+        for k, v in result.items():
             final_result[k] = (v[0], v[1] / float(total) * total_dollars)
 
         print "Result of auction:"

@@ -2,16 +2,12 @@ import os
 import sys
 
 from flask import Flask
-from flask import g
-from flask import redirect
-from flask import session
-from flask import url_for
-from flask.ext.sqlalchemy import SQLAlchemy
 from models.shared import db
 
 
 sys.path.append(os.getcwd())
 base = os.path.abspath(os.path.dirname(__file__))
+
 
 def make_app():
     app = Flask(__name__)
@@ -21,10 +17,13 @@ def make_app():
     db.init_app(app)
     return app
 
+
 def register_blueprints(app):
-    import views_setup, views_auction
+    import views_auction
+    import views_setup
     app.register_blueprint(views_setup.setup_views)
     app.register_blueprint(views_auction.auction_views)
+
 
 def run_webserver(app):
     app.debug = True

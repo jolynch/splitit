@@ -1,9 +1,5 @@
-from decorators import ensure_auction
 from decorators import lookup_or_404
-
 from flask import Blueprint
-from flask import current_app
-from flask import g
 from flask import redirect
 from flask import render_template
 from flask import request
@@ -15,13 +11,15 @@ from models.participant import Participant
 from models.shared import db
 
 
-setup_views = Blueprint('setup', __name__, template_folder = 'templates')
+setup_views = Blueprint('setup', __name__, template_folder='templates')
+
 
 @setup_views.route('/')
 def homepage():
     session['auction_id'] = None
     auctions = Auction.query.all()
     return render_template('homepage.html', auctions=auctions)
+
 
 @setup_views.route('/auction/create', methods=['POST'])
 def create_auction():
@@ -30,13 +28,14 @@ def create_auction():
     db.session.commit()
     return redirect(url_for('setup.step1', auction_id=auction.id))
 
+
 @setup_views.route('/auction/<int:auction_id>/delete', methods=['POST'])
-def delete_auction(auction_id):
-    auction = db.session.query(Auction).get(auction_id)
-    if auction:
-        db.session.delete(auction)
-        db.session.commit()
+@lookup_or_404(Auction, 'auction_id', 'auction')
+def delete_auction(auction_id, auction):
+    db.session.delete(auction)
+    db.session.commit()
     return redirect(url_for('setup.homepage'))
+
 
 @setup_views.route('/auction/<int:auction_id>/actors', methods=['GET'])
 @lookup_or_404(Auction, 'auction_id', 'auction_obj')
@@ -45,6 +44,7 @@ def step1(auction_id, auction_obj):
     return render_template('step1.html',
                            participants=participants,
                            auction=auction_obj)
+
 
 @setup_views.route('/auction/<int:auction_id>/actors', methods=['POST'])
 @lookup_or_404(Auction, 'auction_id', 'auction_obj')
@@ -59,6 +59,7 @@ def step1_process(auction_id, auction_obj):
     db.session.commit()
     return redirect(url_for('setup.step2', auction_id=auction_id))
 
+
 @setup_views.route('/auction/<int:auction_id>/items', methods=['GET'])
 @lookup_or_404(Auction, 'auction_id', 'auction_obj')
 def step2(auction_id, auction_obj):
@@ -68,6 +69,7 @@ def step2(auction_id, auction_obj):
                            items=items,
                            participants=participants,
                            auction=auction_obj)
+
 
 @setup_views.route('/auction/<int:auction_id>/items', methods=['POST'])
 @lookup_or_404(Auction, 'auction_id', 'auction_obj')
@@ -82,6 +84,7 @@ def step2_process(auction_id, auction_obj):
     db.session.commit()
     return redirect(url_for('setup.step3', auction_id=auction_id))
 
+
 @setup_views.route('/auction/<int:auction_id>/finalize', methods=['GET'])
 @lookup_or_404(Auction, 'auction_id', 'auction_obj')
 def step3(auction_id, auction_obj):
@@ -90,14 +93,12 @@ def step3(auction_id, auction_obj):
                            auction=auction_obj,
                            zipped_particpants_items=zipped_particpants_items)
 
+
 @setup_views.route('/auction/<int:auction_id>/finalize', methods=['POST'])
-def step3_process(auction_id):
-    auction = db.session.query(Auction).get(auction_id)
-    if auction:
-        auction.total_bid = request.form['total_bid']
-        auction.name = request.form['name']
-        db.session.add(auction)
-        db.session.commit()
-    else:
-        abort(404)
+@lookup_or_404(Auction, 'auction_id', 'auction')
+def step3_process(auction_id, auction):
+    auction.total_bid = request.form['total_bid']
+    auction.name = request.form['name']
+    db.session.add(auction)
+    db.session.commit()
     return redirect(url_for('auction.auction', auction_id=auction_id))

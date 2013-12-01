@@ -12,13 +12,14 @@ class Cost(object):
         self.amount = amount
 
     def __eq__(self, other):
-        return self.item   == other.item  and \
-               self.actor  == other.actor and \
+        return self.item == other.item and   \
+               self.actor == other.actor and \
                self.amount == other.amount
 
     def __repr__(self):
         return "Cost(" + str(self.item) + ", " + str(self.actor) + \
-                ", " + str(self.amount) + ")"
+               ", " + str(self.amount) + ")"
+
 
 class Splitter(object):
     def calc_averages(self, items, costs):
@@ -39,11 +40,11 @@ class Splitter(object):
         pprint(actors)
         print "== as per the costs:"
         pprint(costs)
-
         print "== Expanding the actors and items =="
-        # This ensures that if we have more items than actors or more actors
-        # than items, we ensure that we always return the optimal result
+
         def expand_list(lst, new_length):
+            # This ensures that if we have more items than actors or more actors
+            # than items, we ensure that we always return the optimal result
             expanded_lst = lst * (new_length / len(lst))
             return [
                 item + "-" + str(index / len(lst))
@@ -64,7 +65,7 @@ class Splitter(object):
             for item in expanded_items:
                 root_actor = actor[:actor.rfind('-')]
                 root_item = item[:item.rfind('-')]
-                real_item = item[item.find('-')+1:] == '0'
+                real_item = item[item.find('-') + 1:] == '0'
                 if real_item:
                     original_cost = cost_dict[(root_item, root_actor)]
                     exp_cost[(item, actor)] = Cost(item, actor, original_cost.amount)
@@ -72,7 +73,7 @@ class Splitter(object):
                     exp_cost[(item, actor)] = Cost(item, actor, 0)
 
         cost_dict = exp_cost
-        new_costs = [Cost(b.item, b.actor, b.amount) for k,b in cost_dict.iteritems()]
+        new_costs = [Cost(b.item, b.actor, b.amount) for k, b in cost_dict.iteritems()]
         averages = self.calc_averages(expanded_items, new_costs)
 
         edges = []
@@ -97,14 +98,14 @@ class Splitter(object):
         for item, winner in result.iteritems():
             root_item = item[:item.rfind('-')]
             root_winner = (winner[0][:winner[0].rfind('-')], winner[1])
-            real_item = item[item.find('-')+1:] == '0'
+            real_item = item[item.find('-') + 1:] == '0'
             if real_item:
                 final_result[root_item] = root_winner
 
         return final_result
 
     def normalize(self, item_assignments, total):
-        total_costs = float(sum(v[1] for k,v in item_assignments.iteritems()))
+        total_costs = float(sum(v[1] for k, v in item_assignments.iteritems()))
         total = float(total)
         return dict([
             (item, (winner[0], int(round(winner[1] / total_costs * total))))
@@ -112,9 +113,5 @@ class Splitter(object):
             in item_assignments.iteritems()
         ])
 
-
     def score(self, cost, averages):
         return cost.amount
-
-
-
