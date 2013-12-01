@@ -6,7 +6,7 @@ class Participant(db.Model):
     name = db.Column(db.String(100))
 
     auction_id = db.Column(db.Integer, db.ForeignKey('auction.id'))
-    auction = db.relationship('Auction', backref=db.backref('participants', lazy='dynamic'))
+    auction = db.relationship('Auction', backref=db.backref('participants', lazy='dynamic', cascade='all,delete'))
 
     def __init__(self, name, auction_id):
         self.name = name

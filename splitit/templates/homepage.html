@@ -7,17 +7,25 @@
 </div>
 <div class="row">
   <div class="span2 offset5">
-    <a href='/step/1' class="btn-start btn btn-primary btn-large">Start A New Auction!</a>
+    <form method='post' action='{{ url_for('setup.create_auction') }}' class='form-horizontal'>
+      <button type="submit" class="btn-start btn btn-primary btn-large">Start A New Auction!</button>
+    </form>
   </div>
 </div>
 <h3> Existing auctions </h3>
 <table class="table">
-  <tr><th>Auction Name</th><th>Participants</th></tr>
+  <tr><th>Auction Name</th><th>Participants</th><th>Items</th><th></th></tr>
   {% for auction in auctions %}
   <tr>
     <td><a href='{{ url_for('auction.auction', auction_id=auction.id) }}'>{{auction.name}}</a></td>
     <td>{{ auction.participants|map(attribute='name')|join(', ') }}</td>
-    </tr>
+    <td>{{ auction.items|map(attribute='name')|join(', ') }}</td>
+    <td>
+      <form method='post' action='{{ url_for('setup.delete_auction', auction_id=auction.id) }}' onsubmit="return confirm('Are you sure you want to delete this auction? You can not undo this!')" class='form-horizontal'>
+        <button type='submit' class='btn btn-small'>Delete</button>
+      </form>
+    </td>
+  </tr>
   {% endfor %}
 </table>
 {% endblock %}

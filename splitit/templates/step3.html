@@ -1,8 +1,19 @@
 {% extends "index.html" %}
 
 {% block body %}
-Okay, added <b>{{ item_count }}</b> item(s). One last thing:
-<form method='post' action='/step/3' class="form-horizontal">
+<p>Preparing an auction between <b>{{ auction.participants.count() }} participants</b> and <b>{{ auction.items.count() }} items</b></p>
+<table class="table">
+  <tr>
+    <th>Participants</th><th>Items</th>
+  </tr>
+  {% for participant, item in zipped_particpants_items %}
+  <tr><td>{{participant.name}}</td><td>{{item.name}}</td></tr>
+  {% endfor %}
+
+</table>
+
+One last thing:
+<form method='post' action='{{ url_for('setup.step3_process', auction_id=auction.id) }}' class="form-horizontal">
   <div class="control-group">
     <label class="control-label">Auction Name:</label>
     <div class="controls">

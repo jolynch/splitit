@@ -18,9 +18,7 @@ auction_views = Blueprint('auction', __name__, template_folder = 'templates')
 
 @auction_views.route('/auction/<int:auction_id>')
 def auction(auction_id):
-    g.auction = db.session.query(Auction).get(auction_id)
-    if g.auction == None:
-        return "404 page not found :("
+    g.auction = Auction.query.get_or_404(auction_id)
     if g.auction.total_bid > 0:
         if g.auction.is_complete():
             return render_template('auction_result.html',
@@ -36,8 +34,7 @@ def auction(auction_id):
                     items=g.auction.items,               \
                     )
     else:
-        session['auction_id'] = g.auction.id
-        return redirect(url_for('setup.step1'))
+        return redirect(url_for('setup.step1', auction_id=g.auction.id))
 
 @auction_views.route('/auction/<int:auction_id>/<int:participant_id>', methods=['GET'])
 def auction_bid(auction_id, participant_id):

@@ -16,11 +16,14 @@
 </script>
 
 Who are participating in the split. One person to a box.
-<form method='post' action='/step/1' class="form-horizontal">
+<form method='post' action='{{ url_for('setup.step1_process', auction_id=auction.id) }}' class="form-horizontal">
   <div class="control-group">
     <label class="control-label">People:</label>
     <div class="controls">
       <div id="person-list">
+        {% for person in participants %}
+        <input type="text" name="people[]" value="{{person.name}}"/><br />
+        {% endfor %}
       </div>
     </div>
   </div>

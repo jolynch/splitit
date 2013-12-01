@@ -2,34 +2,34 @@
 
 {% block body %}
 <div class="row">
-    The auction is now over, the results are as follows:
-    <br />
-    <br />
+  The auction is now over, the results are as follows:
+  <br />
+  <br />
 </div>
 
 <div class="row">
-    <div class="span4">
-        <table class="table">
-            <tr><th>Item</th><th>Winner</th><th>Bid</th><th>Payment</th></tr>
-            {% for i in items %}
-            <tr>
-                <td>{{i.name}}</td>
-                <td>{{ result[i.name][0] }}</td>
-                <td>{{ result[i.name][1] }}</td>
-                <td>{{ normalized[i.name][1] }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+  <div class="span4">
+    <table class="table">
+      <tr><th>Item</th><th>Winner</th><th>Bid</th><th>Payment</th></tr>
+      {% for i in items %}
+      <tr>
+        <td>{{i.name}}</td>
+        <td>{{ result[i.name][0] }}</td>
+        <td>{{ result[i.name][1] }}</td>
+        <td>{{ normalized[i.name][1] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
 
-    <div class="span4 offset2">
-        You divided up <b>${{ total_bid }}</b> between the following items:
-        <ul>
-            {% for i in items %}
-            <li>{{ i.name }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+  <div class="span4 offset2">
+    You divided up <b>${{ total_bid }}</b> between the following items:
+    <ul>
+      {% for i in items %}
+      <li>{{ i.name }}</li>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
 </div>
 {% endblock %}

@@ -15,13 +15,16 @@
   });
 </script>
 
-Okay, added <b>{{ participant_count }}</b> users. Now, what items are at stake.
+Okay, added <b>{{ participants.count() }}</b> users. Now, what items are at stake.
 Again, one per box.
-<form method='post' action='/step/2' class="form-horizontal">
+<form method='post' action='{{ url_for('setup.step2_process', auction_id=auction.id) }}' class="form-horizontal">
   <div class="control-group">
     <label class="control-label">Items:</label>
     <div class="controls">
       <div id="items-list">
+        {% for item in items %}
+        <input type="text" name="items[]" value="{{item.name}}"/><br />
+        {% endfor %}
       </div>
     </div>
   </div>
